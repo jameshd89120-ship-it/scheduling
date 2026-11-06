@@ -8,6 +8,11 @@ spring:
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver # ① 驱动类名改为 PG 的
+    hikari:
+      maximum-pool-size: 3     # 最大只允许3个连接
+      minimum-idle: 1          # 最小空闲连接
+      connection-timeout: 30000
+      idle-timeout: 600000
   jpa:
     hibernate:
       ddl-auto: update

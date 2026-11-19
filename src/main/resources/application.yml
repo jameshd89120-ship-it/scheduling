@@ -2,25 +2,13 @@ server:
   port: ${PORT:8080}
 
 spring:
-  datasource:
-    # 使用环境变量，注意这里要写 JDBC 格式的 URL，Railway 会自动注入
-    url: ${SPRING_DATASOURCE_URL}
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
-    driver-class-name: org.postgresql.Driver # ① 驱动类名改为 PG 的
-    hikari:
-      maximum-pool-size: 3     # 最大只允许3个连接
-      minimum-idle: 1          # 最小空闲连接
-      connection-timeout: 30000
-      idle-timeout: 600000
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:local}
   jpa:
     hibernate:
       ddl-auto: update
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect # ② 方言改为 PG 的
     open-in-view: false
-#注意这里
+
 scheduling:
   defaults:
     open-time: "08:30"
@@ -29,11 +17,49 @@ scheduling:
     work-hours: 8.0
     break-hours: 1.5
     max-days-per-week: 5
-    max-hours-per-day: 120
-    # 🚨 新增餐期配置
+    max-hours-per-day: 12
     lunch-start: "10:30"
     lunch-end: "13:30"
     lunch-need: 4
     dinner-start: "16:30"
     dinner-end: "19:30"
     dinner-need: 4
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    url: jdbc:h2:file:./data/scheduling;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 3
+      minimum-idle: 1
+      connection-timeout: 30000
+      idle-timeout: 600000
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect

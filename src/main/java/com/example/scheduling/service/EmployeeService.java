@@ -14,10 +14,17 @@ public class EmployeeService {
     private final EmployeeRepository repo;
 
     public List<Employee> findAll() {
-        return repo.findAll();
+        return repo.findAllByOrderByStatusAscNameAsc();
+    }
+
+    public List<Employee> findActive() {
+        return repo.findByStatusOrderByNameAsc("ACTIVE");
     }
 
     public Employee save(Employee e) {
+        if (e.getStatus() == null || e.getStatus().trim().isEmpty()) {
+            e.setStatus("ACTIVE");
+        }
         return repo.save(e);
     }
 
@@ -25,8 +32,14 @@ public class EmployeeService {
         Employee e = repo.findById(id).orElseThrow(() -> new RuntimeException("员工不存在"));
         e.setName(body.getName());
         e.setPosition(body.getPosition());
+        e.setDepartment(body.getDepartment());
         e.setPhone(body.getPhone());
         e.setMaxHoursPerWeek(body.getMaxHoursPerWeek());
+        if (body.getStatus() != null && !body.getStatus().trim().isEmpty()) {
+            e.setStatus(body.getStatus());
+        }
+        e.setHireDate(body.getHireDate());
+        e.setNote(body.getNote());
         return repo.save(e);
     }
 

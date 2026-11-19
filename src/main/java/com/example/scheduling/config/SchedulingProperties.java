@@ -12,7 +12,7 @@ public class SchedulingProperties {
     private Double workHours = 8.0;
     private Double breakHours = 1.5;
     private Integer maxDaysPerWeek = 5;
-    private Integer maxHoursPerDay = 120;
+    private Integer maxHoursPerDay = 12;
     // 🚨 新增餐期参数
     private String lunchStart = "10:30";
     private String lunchEnd = "13:30";

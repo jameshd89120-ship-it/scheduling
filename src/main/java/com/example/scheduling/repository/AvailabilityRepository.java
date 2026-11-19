@@ -13,6 +13,8 @@ public interface AvailabilityRepository extends JpaRepository<Availability, Long
 
     List<Availability> findByWeekStart(LocalDate weekStart);
 
+    Availability findByEmployeeIdAndWeekStartAndDayOfWeek(Long employeeId, LocalDate weekStart, Integer dayOfWeek);
+
     // 🚨 终极修复
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("DELETE FROM Availability a WHERE a.weekStart = :weekStart")

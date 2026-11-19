@@ -3,6 +3,7 @@ package com.example.scheduling.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Data
 @Entity
@@ -19,10 +20,23 @@ public class Employee {
     @Column(length = 50)
     private String position;
 
+    @Column(length = 50)
+    private String department;
+
     @Column(length = 20)
     private String phone;
 
     /** 每周最大工时，默认 40 */
     @Column(name = "max_hours_per_week")
     private Integer maxHoursPerWeek = 40;
+
+    /** ACTIVE / INACTIVE */
+    @Column(nullable = false, length = 20)
+    private String status = "ACTIVE";
+
+    @Column(name = "hire_date")
+    private LocalDate hireDate;
+
+    @Column(length = 255)
+    private String note;
 }

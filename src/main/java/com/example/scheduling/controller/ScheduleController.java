@@ -33,6 +33,24 @@ public class ScheduleController {
         return Result.success(service.generate(req));
     }
 
+    @PostMapping("/copy")
+    public Result<WeekScheduleDTO> copy(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate weekStart) {
+        return Result.success(service.copyFromPrevious(weekStart));
+    }
+
+    @PostMapping("/publish")
+    public Result<WeekScheduleDTO> publish(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate weekStart) {
+        return Result.success(service.publish(weekStart));
+    }
+
+    @PostMapping("/unpublish")
+    public Result<WeekScheduleDTO> unpublish(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate weekStart) {
+        return Result.success(service.unpublish(weekStart));
+    }
+
     @PutMapping("/cell")
     public Result<ScheduleUpdateResponse> updateCell(@RequestBody ScheduleUpdateRequest req) {
         return Result.success(service.updateCell(req));

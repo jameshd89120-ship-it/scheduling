@@ -10,7 +10,8 @@ public class CorsConfig implements WebMvcConfigurer {
         registry.addMapping("/api/**")
                 .allowedOrigins(
                         "http://localhost:5173",
-                        "https://scheduling-frontend-nu.vercel.app" // 🚨 你的Vercel主域名，绝对不能带斜杠
+                        "https://scheduling-frontend-nu.vercel.app",
+                        "https://schedule.lyself.ltd"
                 )
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")

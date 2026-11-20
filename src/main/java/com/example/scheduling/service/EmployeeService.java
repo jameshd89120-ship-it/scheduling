@@ -25,6 +25,9 @@ public class EmployeeService {
         if (e.getStatus() == null || e.getStatus().trim().isEmpty()) {
             e.setStatus("ACTIVE");
         }
+        if (e.getDepartment() == null || e.getDepartment().trim().isEmpty()) {
+            e.setDepartment("门店");
+        }
         return repo.save(e);
     }
 
@@ -35,9 +38,8 @@ public class EmployeeService {
         e.setDepartment(body.getDepartment());
         e.setPhone(body.getPhone());
         e.setMaxHoursPerWeek(body.getMaxHoursPerWeek());
-        if (body.getStatus() != null && !body.getStatus().trim().isEmpty()) {
-            e.setStatus(body.getStatus());
-        }
+        e.setStatus(body.getStatus() == null || body.getStatus().trim().isEmpty()
+                ? "ACTIVE" : body.getStatus());
         e.setHireDate(body.getHireDate());
         e.setNote(body.getNote());
         return repo.save(e);

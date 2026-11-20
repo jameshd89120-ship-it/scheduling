@@ -9,6 +9,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public Result<?> handle(Exception e) {
         e.printStackTrace();
-        return Result.error(e.getMessage() == null ? "服务器内部错误" : e.getMessage());
+        Throwable root = e;
+        while (root.getCause() != null && root.getCause() != root) {
+            root = root.getCause();
+        }
+        String msg = root.getMessage() != null ? root.getMessage() : e.getMessage();
+        return Result.error(msg == null ? "服务器内部错误" : msg);
     }
 }

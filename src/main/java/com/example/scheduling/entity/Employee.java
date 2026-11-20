@@ -30,8 +30,11 @@ public class Employee {
     @Column(name = "max_hours_per_week")
     private Integer maxHoursPerWeek = 40;
 
-    /** ACTIVE / INACTIVE */
-    @Column(nullable = false, length = 20)
+    /**
+     * ACTIVE / INACTIVE
+     * 不设 nullable=false，避免已有数据的库 ADD NOT NULL 列失败
+     */
+    @Column(length = 20)
     private String status = "ACTIVE";
 
     @Column(name = "hire_date")
